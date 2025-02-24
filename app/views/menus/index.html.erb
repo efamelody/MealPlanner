@@ -1,0 +1,14 @@
+<h1>Menus</h1>
+
+<ul>
+  <% @menus.each do |menu| %>
+    <li>
+      <strong><%= menu.name %></strong><br>
+      Ingredients: <%= menu.ingredients %><br>
+      <%= link_to 'Edit', edit_menu_path(menu), class: 'btn btn-secondary' %>
+      <%= link_to 'Delete', menu, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to 'Add New Menu', new_menu_path, class: 'btn btn-primary' %>
