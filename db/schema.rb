@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_25_001256) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_25_001959) do
+  create_table "grocery_items", force: :cascade do |t|
+    t.string "name"
+    t.boolean "checked"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "meal_plans", force: :cascade do |t|
     t.string "day"
     t.string "meal_type"

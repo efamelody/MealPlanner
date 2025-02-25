@@ -1,0 +1,13 @@
+<h1>Grocery List</h1>
+
+<p>These are the ingredients you need to buy:</p>
+
+<ul>
+  <% @grocery_items.each do |item| %>
+    <li><%= item.name %></li>
+  <% end %>
+</ul>
+
+<div style="margin-top: 20px;">
+  <%= link_to 'Back to Ingredients Checklist', grocery_lists_path, class: 'btn btn-secondary' %>
+</div>

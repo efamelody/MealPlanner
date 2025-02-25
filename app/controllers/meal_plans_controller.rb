@@ -18,6 +18,7 @@ class MealPlansController < ApplicationController
           meal_plan.update(menu_id: menu_id)
         end
       end
+      flash[:meal_plan_saved] = true
       redirect_to meal_plans_path, notice: 'Meal plan was successfully updated.'
     end
   

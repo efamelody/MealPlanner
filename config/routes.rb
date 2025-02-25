@@ -1,7 +1,13 @@
 Rails.application.routes.draw do
-  resources :menus # This will generate all routes, including `new`, `edit`, `create`, `update`, `destroy`
-  resources :meal_plans, only: [:index, :create, :update]
-  resources :grocery_lists, only: [:index, :update]
+  resources :menus
+  resources :meal_plans, only: [:index, :create]
+  
+  resources :grocery_lists, only: [:index] do
+    collection do
+      patch 'update', to: 'grocery_lists#update', as: 'update'
+      get 'view_list', to: 'grocery_lists#view_list'
+    end
+  end
 
-  root 'menus#index'
+  root 'meal_plans#index'
 end
