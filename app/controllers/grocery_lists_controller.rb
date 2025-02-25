@@ -29,7 +29,7 @@ class GroceryListsController < ApplicationController
     GroceryItem.all.each do |item|
       item.update(checked: checked_items.include?(item.name))
     end
-
+    flash[:grocery_list_updated] = true
     redirect_to grocery_lists_path, notice: 'Grocery list updated successfully.'
   end
 
