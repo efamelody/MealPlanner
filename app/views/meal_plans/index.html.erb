@@ -1,0 +1,35 @@
+<h1>Weekly Meal Planner</h1>
+
+<%= form_with url: meal_plans_path, method: :post, local: true do %>
+  <table>
+    <thead>
+      <tr>
+        <th>Day</th>
+        <% @meal_types.each do |meal_type| %>
+          <th><%= meal_type %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @days.each do |day| %>
+        <tr>
+          <td><%= day %></td>
+          <% @meal_types.each do |meal_type| %>
+            <td>
+              <% current_plan = @meal_plans[[day, meal_type]]&.first %>
+              <%= select_tag "meal_plans[#{day}][#{meal_type}]",
+                options_for_select(@menus.map { |m| [m.name, m.id] }, current_plan&.menu_id),
+                include_blank: true %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= submit_tag 'Save Meal Plan', class: 'btn btn-primary' %>
+<% end %>
+
+<div style="margin-top: 20px;">
+  <%= link_to 'Back to Menus', menus_path, class: 'btn btn-secondary' %>
+</div>

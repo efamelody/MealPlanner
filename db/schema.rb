@@ -10,11 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_24_230249) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_25_001256) do
+  create_table "meal_plans", force: :cascade do |t|
+    t.string "day"
+    t.string "meal_type"
+    t.integer "menu_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["menu_id"], name: "index_meal_plans_on_menu_id"
+  end
+
   create_table "menus", force: :cascade do |t|
     t.string "name"
     t.text "ingredients"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_foreign_key "meal_plans", "menus"
 end

@@ -1,0 +1,10 @@
+<h1><%= @menu.name %></h1>
+
+<p>
+  <strong>Ingredients:</strong>
+  <%= @menu.ingredients %>
+</p>
+
+<%= link_to 'Edit', edit_menu_path(@menu), class: 'btn btn-secondary' %>
+<%= link_to 'Delete', menu_path(@menu), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+<%= link_to 'Back to Menus', menus_path, class: 'btn btn-primary' %>
