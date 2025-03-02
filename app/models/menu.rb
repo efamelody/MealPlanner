@@ -1,6 +1,7 @@
 class Menu < ApplicationRecord
     # Relationships
     has_many :meal_plans, dependent: :destroy
+    scope :favourites, -> { where(favourite: true) }
   
     # Validations
     validates :name, presence: true, uniqueness: true

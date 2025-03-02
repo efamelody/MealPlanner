@@ -1,21 +1,29 @@
 <h1>Menus</h1>
 
-<table class="table table-striped">
+<table>
   <thead>
     <tr>
       <th>Name</th>
       <th>Ingredients</th>
+      <th>Favourite</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <% @menus.each do |menu| %>
       <tr>
-        <td><strong><%= menu.name %></strong></td>
+        <td><%= menu.name %></td>
         <td><%= menu.ingredients %></td>
         <td>
-          <%= link_to 'Edit', edit_menu_path(menu), class: 'btn btn-secondary btn-sm me-2' %>
-          <%= link_to 'Delete', menu, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+        <% if menu.favourite %>
+          ❤️ <%= button_to 'Unfavourite', toggle_favourite_menu_path(menu), method: :patch, class: 'btn btn-warning' %>
+        <% else %>
+          🤍 <%= button_to 'Favourite', toggle_favourite_menu_path(menu), method: :patch, class: 'btn btn-primary' %>
+        <% end %>
+        </td>
+        <td>
+          <%= link_to 'Edit', edit_menu_path(menu), class: 'btn btn-secondary' %>
+          <%= link_to 'Delete', menu, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
         </td>
       </tr>
     <% end %>
@@ -23,3 +31,4 @@
 </table>
 
 <%= link_to 'Add New Menu', new_menu_path, class: 'btn btn-primary' %>
+

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_02_123059) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_02_125302) do
   create_table "grocery_items", force: :cascade do |t|
     t.string "name"
     t.boolean "checked"
@@ -34,6 +34,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_02_123059) do
     t.text "ingredients"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "favourite"
   end
 
   add_foreign_key "meal_plans", "menus"

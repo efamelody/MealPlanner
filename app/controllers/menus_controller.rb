@@ -1,9 +1,14 @@
 class MenusController < ApplicationController
-    before_action :set_menu, only: [:show, :edit, :update, :destroy]
+    before_action :set_menu, only: [:show, :edit, :update, :destroy, :toggle_favourite]
   
     # GET /menus
     def index
       @menus = Menu.all
+    end
+
+    def toggle_favourite
+      @menu.update(favourite: !@menu.favourite)  # Toggle true/false
+      redirect_to menus_path, notice: "Updated favourite status."
     end
 
     def show
@@ -52,7 +57,7 @@ class MenusController < ApplicationController
   
     # Only allow a list of trusted parameters through.
     def menu_params
-      params.require(:menu).permit(:name, :ingredients)
+      params.require(:menu).permit(:name, :ingredients, :favourite)
     end
 end
   

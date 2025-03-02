@@ -1,33 +1,43 @@
 <h1 class="meal-planner-title">Meal Plan for <%= @week_start_date.strftime("%B %d, %Y") %></h1>
 
 <!-- Week Navigation Buttons -->
-<div class="week-navigation">
+<div class="meal-planner-container">
   <%= link_to "← Previous Week", meal_plans_path(week: @previous_week.to_s), class: "btn btn-secondary" %>
   <%= link_to "Next Week →", meal_plans_path(week: @next_week.to_s), class: "btn btn-secondary" %>
 </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Day</th>
-      <% @meal_types.each do |meal_type| %>
-        <th><%= meal_type %></th>
-      <% end %>
-    </tr>
-  </thead>
-  <tbody>
-    <% @days.each do |day| %>
+<div class="meal-planner-table">
+  <table>
+    <thead>
       <tr>
-        <td><%= day %></td>
+        <th>Day</th>
         <% @meal_types.each do |meal_type| %>
-          <td>
-            <% current_plan = @meal_plans[[day, meal_type]] %>
-            <%= current_plan&.menu&.name || "Not Selected" %>
-          </td>
+          <th><%= meal_type %></th>
         <% end %>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @days.each do |day| %>
+        <tr>
+          <td><%= day %></td>
+          <% @meal_types.each do |meal_type| %>
+            <td>
+              <% current_plan = @meal_plans[[day, meal_type]] %>
+              <%= current_plan&.menu&.name || "Not Selected" %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <%= link_to "Edit Meal Plan", edit_meal_plan_path(week: @week_start_date.to_s), class: "btn btn-primary" %>
+
+<h2>Favourite Meals</h2>
+
+<ul>
+  <% Menu.favourites.each do |menu| %>
+    <li><strong><%= menu.name %></strong> - <%= menu.ingredients %></li>
+  <% end %>
+</ul>
