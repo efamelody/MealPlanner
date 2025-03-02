@@ -3,31 +3,45 @@ class MealPlansController < ApplicationController
   
     # GET /meal_plans
     def index
-      @dates = MealPlan.select(:date).distinct.order(date: :desc)  # Get all unique dates
-      @meal_plans_by_date = MealPlan.all.group_by(&:date)  # Group meal plans by date
+      # Get the week_start_date from params or default to this week's Monday
+      @week_start_date = params[:week].present? ? Date.parse(params[:week]) : Date.today.beginning_of_week(:monday)
+    
+      # Fetch meal plans for the selected week
+      @meal_plans = MealPlan.where(week_start_date: @week_start_date).index_by { |mp| [mp.day, mp.meal_type] }
+    
+      # Define week navigation links
+      @previous_week = @week_start_date - 7.days
+      @next_week = @week_start_date + 7.days
+    
       @days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
       @meal_types = ["Breakfast", "Lunch", "Dinner"]
     end
 
     def edit
-      @date = Date.parse(params[:date]) rescue Date.today
-      meal_plans = MealPlan.all.group_by { |mp| [mp.day, mp.meal_type] }
-      @meal_plans = meal_plans.transform_values(&:first)
+      @week_start_date = params[:week].present? ? Date.parse(params[:week]) : Date.today.beginning_of_week(:monday)
+    
+      # Fetch meal plans for the selected week
+      @meal_plans = MealPlan.where(week_start_date: @week_start_date).index_by { |mp| [mp.day, mp.meal_type] }
+    
       @days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
       @meal_types = ["Breakfast", "Lunch", "Dinner"]
       @menus = Menu.all
     end
+    
   
     # POST /meal_plans
     def create
-      date = params[:date] || Date.today
+      week_start_date = params[:week_start_date].present? ? Date.parse(params[:week_start_date]) : Date.today.beginning_of_week(:monday)
+
       params[:meal_plans].each do |day, meals|
         meals.each do |meal_type, menu_id|
-          MealPlan.create(day: day, meal_type: meal_type, menu_id: menu_id, date: Date.today)
+          meal_plan = MealPlan.find_or_initialize_by(day: day, meal_type: meal_type, week_start_date: week_start_date)
+          meal_plan.menu_id = menu_id
+          meal_plan.save
         end
       end
-      flash[:meal_plan_saved] = true
-      redirect_to meal_plans_path, notice: 'Meal plan was successfully updated.'
+
+      redirect_to meal_plans_path(week: week_start_date.to_s), notice: 'Meal Plan Saved!'
     end
   
     private
