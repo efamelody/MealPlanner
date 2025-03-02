@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_25_001959) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_02_115840) do
   create_table "grocery_items", force: :cascade do |t|
     t.string "name"
     t.boolean "checked"
@@ -24,6 +24,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_25_001959) do
     t.integer "menu_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "date"
     t.index ["menu_id"], name: "index_meal_plans_on_menu_id"
   end
 

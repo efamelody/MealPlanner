@@ -3,19 +3,27 @@ class MealPlansController < ApplicationController
   
     # GET /meal_plans
     def index
-      @days = %w[Monday Tuesday Wednesday Thursday Friday Saturday Sunday]
-      @meal_types = %w[Breakfast Lunch Dinner]
-      @meal_plans = MealPlan.includes(:menu).all.group_by { |mp| [mp.day, mp.meal_type] }
+      @dates = MealPlan.select(:date).distinct.order(date: :desc)  # Get all unique dates
+      @meal_plans_by_date = MealPlan.all.group_by(&:date)  # Group meal plans by date
+      @days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+      @meal_types = ["Breakfast", "Lunch", "Dinner"]
+    end
+
+    def edit
+      @date = Date.parse(params[:date]) rescue Date.today
+      meal_plans = MealPlan.all.group_by { |mp| [mp.day, mp.meal_type] }
+      @meal_plans = meal_plans.transform_values(&:first)
+      @days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+      @meal_types = ["Breakfast", "Lunch", "Dinner"]
+      @menus = Menu.all
     end
   
     # POST /meal_plans
     def create
-      meal_plans_params.each do |day, meals|
+      date = params[:date] || Date.today
+      params[:meal_plans].each do |day, meals|
         meals.each do |meal_type, menu_id|
-          next if menu_id.blank?
-  
-          meal_plan = MealPlan.find_or_initialize_by(day: day, meal_type: meal_type)
-          meal_plan.update(menu_id: menu_id)
+          MealPlan.create(day: day, meal_type: meal_type, menu_id: menu_id, date: Date.today)
         end
       end
       flash[:meal_plan_saved] = true

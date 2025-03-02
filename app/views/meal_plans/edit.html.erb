@@ -1,0 +1,50 @@
+<% if notice.present? %>
+  <div class="alert alert-success" role="alert">
+    <p><%= notice %></p>
+  </div>
+<% end %>
+<div class="meal-planner-container">
+  <h1 class="meal-planner-title">Weekly Meal Planner</h1>
+  <p>Pick the food you want to eat for the week!</p>
+
+  <div class="meal-planner-table">
+    <div class="table-wrapper">
+      <%= form_with url: meal_plans_path, method: :post, local: true do %>
+        <table>
+          <thead>
+            <tr>
+              <th>Day</th>
+              <% @meal_types.each do |meal_type| %>
+                <th><%= meal_type %></th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @days.each do |day| %>
+              <tr>
+                <td><%= day %></td>
+                <% @meal_types.each do |meal_type| %>
+                  <td>
+                    <% current_plan = @meal_plans[[day, meal_type]] %>
+                    <%= select_tag "meal_plans[#{day}][#{meal_type}]",
+                      options_for_select(@menus.map { |m| [m.name, m.id] }, current_plan&.menu_id),
+                      include_blank: true %>
+                  </td>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <br>          
+        <%= submit_tag 'Save Meal Plan', class: 'btn save-meal-plan-btn' %>
+      <% end %>
+
+      <% if flash[:meal_plan_saved] %>
+        <div class="alert alert-info mt-4" role="alert">
+          Meal Plan is saved! Now, let's go grocery shopping!
+          <%= link_to 'Lets update Grocery List', grocery_lists_path, class: 'btn btn-success ms-3' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

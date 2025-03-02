@@ -15,6 +15,14 @@
     justify-content: space-between;
 }
 
+/* Center align the meal planner */
+.meal-planner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
+}
 .app-title {
     font-size: 2rem;
     margin: 0;
@@ -42,6 +50,54 @@
     padding: 20px;
 }
 
+
+
+/* 🟢 Meal Planner Box */
+.meal-planner-container {
+    width:100%;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 30px 30px 50px 40px;
+}
+
+.meal-planner-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 🟢 Meal Plan Table */
+.meal-planner-table {
+    width: 80%;
+    max-width: 900px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+ 
+}
+
+/* 🟢 Save Button */
+.save-meal-plan-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    background-color: #6b2c7b;
+    color: white;
+}
+
+.save-meal-plan-btn:hover {
+    background-color: #4CAF50;
+}
+
 /* Button Styles */
 .btn {
     padding: 8px 16px;
@@ -62,12 +118,12 @@
 }
 
 .btn-secondary {
-    background-color: #555;
+    background-color: #CAE2FC;
     color: #6B005D;
 }
 
 .btn-secondary:hover {
-    background-color: #333;
+    background-color: #e3f0fd;
 }
 
 .btn-danger {
@@ -84,14 +140,31 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    table-layout: auto; 
 }
 
 th, td {
     padding: 10px;
     border: 1px solid #ddd;
-    text-align: left;
+    text-align: center;
+    white-space: nowrap;
 }
 
 th {
     background-color: #f2f2f2;
+}
+
+/* 🟢 Responsive Design */
+@media (max-width: 768px) {
+    .meal-planner-table {
+        width: 95%;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+
+    .save-meal-plan-btn {
+        width: 100%;
+    }
 }

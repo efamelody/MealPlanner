@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :menus
-  resources :meal_plans, only: [:index, :create]
+
+  get 'meal_plans/edit/:date', to: 'meal_plans#edit', as: 'edit_meal_plan'
+  resources :meal_plans, only: [:index, :create, :edit, :update]
   
   resources :grocery_lists, only: [:index] do
     collection do
